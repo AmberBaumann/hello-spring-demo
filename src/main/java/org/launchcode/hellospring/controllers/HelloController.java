@@ -12,19 +12,40 @@ public class HelloController {
 
     // Handles requests of the form /hello?name=LaunchCode
     @RequestMapping(value = "hello", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public String hello(@RequestParam String name){
-        return "Hello, " + name + "!";
+    public String hello(@RequestParam String name, Model model){
+        String greeting = "Hello, " + name + "!";
+        model.addAttribute("greeting", greeting);
+        return "hello";
     }
 
     // Handles requests of the form /hello/LaunchCode
     @GetMapping("hello/{name}")
-    @ResponseBody
-    public String helloAgain(@PathVariable String name){
-        return "Hello, " + name + "!";
+
+    public String helloAgain(@PathVariable String name, Model model){
+        String greeting = "Hello, " + name + "!";
+        model.addAttribute("greeting", greeting);
+        return "hello";
     }
 
-    /*public String getGreeting(String name, String language){
+    // /form
+    @GetMapping("form")
+    public String helloForm(){
+        return "form";
+    }
+
+    @GetMapping("hello-names")
+    public String helloNames(Model model){
+        List<String> names = new ArrayList<>();
+        names.add("Taylor");
+        names.add("Teo");
+        names.add("Amber");
+        model.addAttribute("names", names);
+        return "hello-list";
+    }
+
+}
+
+/*public String getGreeting(String name, String language){
         String greeting = "";
         if(language.equals("english")){
             greeting = "Hello";
@@ -59,14 +80,6 @@ public class HelloController {
     public String helloPost(@RequestParam String name, @RequestParam String language){
         return getGreeting(name, language);
     }*/
-
-    // /form
-    @GetMapping("form")
-    public String helloForm(){
-        return "form";
-    }
-
-}
 
 //String html = "<form method = 'get' action= '/hello/hello'>" +
 //                "<input type='text' name='name' />" +
